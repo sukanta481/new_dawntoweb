@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /new_dawntoweb/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^pages/(.+)\.html$ /pages/$1.php [L]
+

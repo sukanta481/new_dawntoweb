@@ -1,0 +1,215 @@
+/* =========================================================
+   MarketingCampaign Dashboard — layout + responsive patches
+   ========================================================= */
+
+/* ---- Theme tokens ---- */
+:root{
+  --mc-bg:#f6f8fb; --mc-panel:#fff; --mc-border:#e6e9ef;
+  --mc-text:#0f172a; --mc-muted:#5b6577; --mc-primary:#183a95;
+  --mc-primary-600:#1f49be; --mc-blue-soft:#eef3ff;
+  --mc-green:#0ea66b; --mc-red:#d23b3b; --mc-amber:#eab308;
+}
+
+/* ---- Base ---- */
+html,body{height:100%}
+body{margin:0;background:var(--mc-bg);color:var(--mc-text);font:15px/1.4 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.muted{color:var(--mc-muted)}
+.sm{font-size:12px}
+
+/* ---- Header (appbar) ---- */
+.appbar{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--mc-border)}
+.appbar__inner{max-width:1200px;margin:0 auto;height:64px;display:flex;align-items:center;gap:16px;padding:0 16px}
+.appbar__left{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.appbar__logo{width:28px;height:28px;display:grid;place-items:center;border-radius:6px;background:linear-gradient(180deg,#2b57ff,#183a95);color:#fff}
+.appbar__brand .brand-title{font-weight:800}
+.appbar__brand .brand-sub{font-size:12px;color:var(--mc-muted)}
+/* critical: tabs flex + overflow to prevent overlap */
+.appbar__tabs{display:flex;gap:6px;margin-left:8px;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.appbar__tabs::-webkit-scrollbar{display:none}
+.tab{position:relative;display:flex;gap:8px;align-items:center;padding:10px 14px;border-radius:10px;font-weight:600;color:#1f2a44;text-decoration:none;white-space:nowrap}
+.tab:hover{background:var(--mc-blue-soft)}
+.tab.active{background:var(--mc-primary);color:#fff}
+.tab__icon{opacity:.9}
+.appbar__right{margin-left:auto;display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.toolbar__text{color:var(--mc-muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot--live{background:var(--mc-green)}
+
+/* ---- Dropdown (mc-dd) ---- */
+.mc-dd{position:relative}
+.mc-dd-toggle{display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:40px;background:#fff;border:1px solid var(--mc-border);border-radius:10px}
+.mc-dd-toggle:focus-visible{outline:3px solid #bcd2ff;outline-offset:2px}
+.mc-caret{margin-left:6px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #7b86a2}
+.mc-dd-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:220px;max-width:calc(100vw - 16px);max-height:260px;overflow:auto;background:#fff;border:1px solid var(--mc-border);border-radius:12px;box-shadow:0 12px 30px rgba(16,24,40,.08);display:none;z-index:1100}
+.mc-dd.is-open .mc-dd-menu{display:block}
+.mc-dd-item{padding:12px 14px;cursor:pointer}
+.mc-dd-item:hover,.mc-dd-item[aria-selected="true"]{background:var(--mc-blue-soft)}
+
+/* ---- Filters block ---- */
+.panel{background:#fff;border:1px solid var(--mc-border);border-radius:14px;padding:18px}
+.filters .label{font-weight:700;color:#1c274c;margin-bottom:8px}
+.filters__grid{display:grid;grid-template-columns:1fr 1fr auto;gap:16px}
+.filters .select{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--mc-border);border-radius:10px;background:#fff;min-height:40px}
+.filters__right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.switch{--w:44px;position:relative;width:var(--w);height:26px;border-radius:999px;background:#d8deed}
+.switch input{appearance:none;width:100%;height:100%;margin:0;outline:none;cursor:pointer}
+.switch input:checked{background:#cce1ff}
+.switch input::before{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18);transition:transform .2s}
+.switch input:checked::before{transform:translateX(18px)}
+.btn-ghost{border:1px solid var(--mc-border);background:#fff;border-radius:10px;height:40px;padding:0 12px;cursor:pointer}
+
+/* ---- KPI cards ---- */
+.kpis{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:18px}
+.kpi{grid-column:span 3;background:#fff;border:1px solid var(--mc-border);border-radius:14px;padding:18px}
+.kpi__icon{width:36px;height:36px;border-radius:12px;background:#f2f6ff;display:grid;place-items:center;margin-bottom:8px}
+.kpi__value{font-size:28px;font-weight:800}
+.kpi__title{color:var(--mc-muted);font-weight:600}
+.delta{margin-left:8px}
+.delta.up{color:var(--mc-green);font-weight:700}
+.delta.down{color:var(--mc-red);font-weight:700}
+
+/* ---- Grid sections ---- */
+.grid-3{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:18px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.rail{display:grid;gap:18px}
+.panel__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.panel__link{display:inline-flex;gap:8px;color:var(--mc-primary);font-weight:700;text-decoration:none}
+
+/* ---- Legend / keys ---- */
+.legend{display:flex;align-items:center;gap:12px;color:var(--mc-muted)}
+.key{display:inline-block;width:14px;height:6px;border-radius:999px}
+.key--bar{background:#4c78ff}
+.key--line{background:#19a974}
+
+/* ---- Table ---- */
+.table-wrap{overflow:auto;border-radius:14px;border:1px solid var(--mc-border);background:#fff}
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table th,.table td{padding:14px 16px;text-align:left;font-size:14px}
+.table thead th{background:#f3f6ff;font-weight:800;color:#1d2a4a;position:sticky;top:0;z-index:1}
+.table tbody tr+tr td{border-top:1px solid var(--mc-border)}
+
+/* ---- Footer ---- */
+.appfooter{margin-top:24px;border-top:1px solid var(--mc-border);background:#fff}
+.appfooter__inner{max-width:1200px;margin:0 auto;padding:16px;color:var(--mc-muted);display:flex;gap:8px}
+
+/* =========================================================
+   MOBILE / RESPONSIVE PATCH
+   ========================================================= */
+
+/* keep header & menus above everything */
+.appbar{position:sticky;top:0;z-index:1000}
+.mc-dd-menu{z-index:1100}
+
+/* hamburger button (auto-created by JS) */
+.appbar__burger,.mc-menu-btn{
+  display:none;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:10px;border:1px solid var(--mc-border);background:#fff
+}
+.appbar__burger .bar,.mc-menu-btn .bar{width:18px;height:2px;background:#1f2a44;position:relative}
+.appbar__burger .bar::before,.appbar__burger .bar::after,
+.mc-menu-btn .bar::before,.mc-menu-btn .bar::after{
+  content:"";position:absolute;left:0;right:0;height:2px;background:#1f2a44
+}
+.appbar__burger .bar::before,.mc-menu-btn .bar::before{top:-6px}
+.appbar__burger .bar::after,.mc-menu-btn .bar::after{top:6px}
+
+/* the slide-down drawer injected by JS on mobile */
+.appbar-drawer,.mc-nav-drawer{
+  position:fixed;left:0;right:0;top:56px;background:#fff;
+  border-bottom:1px solid var(--mc-border);box-shadow:0 12px 30px rgba(16,24,40,.10);
+  display:none;z-index:1050
+}
+.appbar-drawer.open,.mc-nav-drawer.open{display:block}
+.appbar-drawer-list,.mc-nav-list{display:grid;gap:4px;padding:8px}
+.appbar-drawer-list a,.mc-nav-list a{padding:12px 14px;border-radius:10px;font-weight:600;color:#1f2a44;text-decoration:none}
+.appbar-drawer-list a.active,.mc-nav-list a.active{background:var(--mc-blue-soft);color:var(--mc-primary)}
+body.mc-lock{overflow:hidden}
+
+/* Phone layout adjustments */
+@media (max-width: 768px){
+  .appbar__inner{height:56px}
+  .appbar__tabs{display:none}        /* hidden; drawer shows instead */
+  .appbar__burger{display:inline-flex}
+  .appbar__right{gap:8px}
+  .appbar .mc-dd-toggle{min-width:auto;max-width:180px}
+  .appbar .mc-dd-menu{right:8px;left:auto;min-width:220px;max-width:calc(100vw - 16px)}
+
+  .filters__grid{grid-template-columns:1fr}
+  .filters{padding:14px}
+  .filters .select,.mc-dd,.mc-dd-toggle{width:100%}
+
+  .kpis{grid-template-columns:1fr 1fr;gap:12px}
+  .kpi{grid-column:span 1}
+
+  .grid-3{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+}
+
+/* Tiny phones: stack KPIs one per row (e.g., 320px) */
+@media (max-width: 380px){
+  .kpis{grid-template-columns:1fr}
+}
+
+
+.topbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.topbar-left {
+  font-weight: 500;
+  color: #333;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  object-fit: cover;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown a:hover {
+  background: #f8f9fa;
+}
+
+/* Show dropdown on hover */
+.profile-menu:hover .dropdown {
+  display: block;
+}
