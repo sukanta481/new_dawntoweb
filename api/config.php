@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// Detect environment (local vs live)
-if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1') {
+// Detect environment
+if (in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])) {
     // Local database
     $DB_HOST = '127.0.0.1';
     $DB_NAME = 'new_dawntoweb';
@@ -31,3 +31,4 @@ try {
   echo json_encode(['ok' => false, 'error' => 'DB connection failed: ' . $e->getMessage()]);
   exit;
 }
+?>
