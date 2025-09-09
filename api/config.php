@@ -1,34 +1,27 @@
 <?php
-session_start();
+// api/config.php
 
-// Detect environment
-if (in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])) {
-    // Local database
-    $DB_HOST = '127.0.0.1';
-    $DB_NAME = 'new_dawntoweb';
-    $DB_USER = 'root';
-    $DB_PASS = '';
-} else {
-    // Live Hostinger database
-    $DB_HOST = 'localhost'; 
-    $DB_NAME = 'u286257250_dawntoweb';
-    $DB_USER = 'u286257250_dawntoweb';
-    $DB_PASS = 'Sukanta@8961';
-}
+require_once __DIR__ . '/../vendor/autoload.php';
 
-header('Content-Type: application/json');
+use Dotenv\Dotenv;
 
-$options = [
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  PDO::ATTR_EMULATE_PREPARES => false,
-];
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
+// Database configuration from .env
+$db_host = $_ENV['DB_HOST'];
+$db_port = $_ENV['DB_PORT'];
+$db_name = $_ENV['DB_DATABASE'];
+$db_user = $_ENV['DB_USERNAME'];
+$db_pass = $_ENV['DB_PASSWORD'];
 
 try {
-  $pdo = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASS, $options);
+    $dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8mb4";
+    $pdo = new PDO($dsn, $db_user, $db_pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
 } catch (PDOException $e) {
-  http_response_code(500);
-  echo json_encode(['ok' => false, 'error' => 'DB connection failed: ' . $e->getMessage()]);
-  exit;
+    die("Database connection failed: " . $e->getMessage());
 }
-?>
