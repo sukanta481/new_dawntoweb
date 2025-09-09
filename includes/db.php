@@ -1,22 +1,24 @@
 <?php
-// includes/db.php
-// >>> Update these for your machine <<<
-$DB_HOST = 'localhost';
-$DB_NAME = 'new_dawntoweb';   // your database name
-$DB_USER = 'root';
-$DB_PASS = '';                // XAMPP default is empty; WAMP often 'root'/'', or use your password.
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+use Dotenv\Dotenv;
+
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
+// Database credentials from .env
+$db_host = $_ENV['DB_HOST'] ?? 'localhost';
+$db_name = $_ENV['DB_NAME'] ?? '';
+$db_user = $_ENV['DB_USER'] ?? 'root';
+$db_pass = $_ENV['DB_PASS'] ?? '';
 
 try {
-    $pdo = new PDO($dsn, $DB_USER, $DB_PASS, $options);
-} catch (Throwable $e) {
-    http_response_code(500);
-    die('Database connection failed: ' . htmlspecialchars($e->getMessage()));
+    $conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
 ?>
