@@ -7,11 +7,11 @@
       
       <!-- Logo + About -->
       <div>
-        <div class="flex items-center space-x-2 mb-4">
-          <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-          <span class="text-xl font-bold">DigitalAgency Pro</span>
+        <div class="flex-shrink-0">
+        <a href="<?= url('pages/homepage.php') ?>" class="flex items-center space-x-2">
+          <img src="<?= asset('public/brand/logo2.png') ?>" alt="dawntoweb logo" class="w-20 h-20" width="60" height="60" />
+          <span class="text-xl font-bold text-white">dawntoweb</span>
+        </a>
         </div>
         <p class="text-secondary-300 mb-4">
           Transforming businesses through innovative digital marketing solutions and data-driven strategies.
@@ -81,7 +81,7 @@
     <!-- Bottom Copyright -->
     <div class="border-t border-secondary-700 mt-12 pt-8 text-center">
       <p class="text-secondary-400">
-        © 2025 DigitalAgency Pro. All Rights Reserved. | Privacy Policy | Terms of Service
+        © 2025 dawntoweb. All Rights Reserved. | Privacy Policy | Terms of Service
       </p>
     </div>
   </div>
